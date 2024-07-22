@@ -1,0 +1,5 @@
+out/
+.clang-format
+CMakePresets.json
+compile.bat
+.vs/
