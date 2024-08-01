@@ -2,9 +2,6 @@
 
 namespace vk_debug
 {
-
-PFN_vkCreateDebugUtilsMessengerEXT vkCreateDebugUtilsMessengerEXT;
-PFN_vkDestroyDebugUtilsMessengerEXT vkDestroyDebugUtilsMessengerEXT;
 VkDebugUtilsMessengerEXT debugMessenger;
 
 VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
@@ -34,10 +31,8 @@ void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &create
 
 void setupDebugMessenger(VkInstance instance)
 {
-	vkCreateDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(
+	PFN_vkCreateDebugUtilsMessengerEXT vkCreateDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(
 	    instance, "vkCreateDebugUtilsMessengerEXT"));
-	vkDestroyDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(
-	    instance, "vkDestroyDebugUtilsMessengerEXT"));
 
 	VkDebugUtilsMessengerCreateInfoEXT createInfo{};
 	populateDebugMessengerCreateInfo(createInfo);
@@ -50,6 +45,9 @@ void setupDebugMessenger(VkInstance instance)
 
 void freeDebugMessenger(VkInstance instance)
 {
+	PFN_vkDestroyDebugUtilsMessengerEXT vkDestroyDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(
+	    instance, "vkDestroyDebugUtilsMessengerEXT"));
+
 	if (debugMessenger != VK_NULL_HANDLE)
 	{
 		vkDestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);

@@ -11,19 +11,21 @@
 struct VulkanDevice
 {
 	// Physical device representation
-	VkPhysicalDevice physicalDevice;
+	VkPhysicalDevice physicalDevice{};
 	// Logical device representation (application's interface of physical device)
-	VkDevice logicalDevice;
+	VkDevice logicalDevice{};
 	// Properties of physical device including limits that the application can check against
-	VkPhysicalDeviceProperties properties;
+	VkPhysicalDeviceProperties properties{};
 	// Memory types and heaps of the physical device
-	VkPhysicalDeviceMemoryProperties memProperties;
+	VkPhysicalDeviceMemoryProperties memProperties{};
 	// Max usable samples
-	VkSampleCountFlagBits msaaSamples;
+	VkSampleCountFlagBits msaaSamples{};
+	// Supported depth format for physical device
+	VkFormat depthFormat{};
 	// Default command pool for the graphics queue family index
 	VkCommandPool commandPool{VK_NULL_HANDLE};
-	// Supported depth format for physical device
-	VkFormat depthFormat;
+	// Command buffers will be destroyed when commandPool is destroyed
+	std::vector<VkCommandBuffer> commandBuffers{}; 
 
 	struct
 	{
@@ -42,9 +44,9 @@ struct VulkanDevice
 		}
 	} queueFamilyIndices;
 
-	void pickPhysicalDevice(VkInstance instance, VkSurfaceKHR surface, const std::vector<const char *> &enabledExtensions, VkPhysicalDeviceFeatures enabledFeatures);
+	VkPhysicalDevice pickPhysicalDevice(VkInstance instance, VkSurfaceKHR surface, const std::vector<const char *> &enabledExtensions, VkPhysicalDeviceFeatures enabledFeatures);
 
-	void createLogicalDevice(bool enableValidationLayers, const std::vector<const char *> &validationLayers, const std::vector<const char *> &enabledExtensions, VkPhysicalDeviceFeatures enabledFeatures, void *pNextChain);
+	VkDevice createLogicalDevice(bool enableValidationLayers, const std::vector<const char *> &validationLayers, const std::vector<const char *> &enabledExtensions, VkPhysicalDeviceFeatures enabledFeatures, void *pNextChain);
 
 	bool checkDeviceExtensionSupport(const std::vector<const char *> &enabledExtensions);
 
@@ -59,4 +61,16 @@ struct VulkanDevice
 	VkFormat findSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
 	VkFormat findDepthFormat();
+
+	VkCommandBuffer beginSingleTimeCommands();
+	void endSingleTimeCommands(VkCommandBuffer commandBuffer, VkQueue queue);
+
+	void createCommandPool();
+	void createCommandBuffers(const uint32_t maxFramesInFlight);
+
+	void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer &buffer, VkDeviceMemory &bufferMemory);
+
+	void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size, VkQueue queue);
+
+	void cleanup();
 };

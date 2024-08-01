@@ -1,4 +1,5 @@
-struct HitPayload {
+struct HitPayload
+{
 	vec3 hitValue;
 	vec3 rayOrigin;
 	vec3 rayDirection;
@@ -7,7 +8,8 @@ struct HitPayload {
 	uint depth;
 };
 
-struct Vertex {
+struct Vertex
+{
 	vec3 pos;
 	vec3 normal;
 	vec3 color;
@@ -28,6 +30,7 @@ struct Model
 	uint64_t matIndexAddress;
 };
 
-struct PushConstantRay {
+struct PushConstantRay
+{
 	int frame;
 };

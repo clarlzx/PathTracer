@@ -18,7 +18,6 @@ layout(binding = 0, set = 0) uniform accelerationStructureEXT tlas;
 layout(binding = 1, set = 1) buffer _Model {Model m[];} model;
 
 layout(location = 0) rayPayloadInEXT HitPayload hitPayload;
-layout(location = 1) rayPayloadEXT bool isShadowed;
 
 hitAttributeEXT vec2 attribs;
 

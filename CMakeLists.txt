@@ -14,6 +14,7 @@ set(SOURCE_FILES
     VulkanDevice.cpp VulkanDevice.h
     VulkanRaytracing.cpp VulkanRaytracing.h
     VulkanSwapchain.cpp VulkanSwapchain.h
+    VulkanUtils.cpp VulkanUtils.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
