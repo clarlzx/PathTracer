@@ -150,6 +150,9 @@ bool VulkanDevice::checkDeviceFeaturesSupport(VkPhysicalDeviceFeatures enabledFe
 
 void VulkanDevice::queryQueueFamilyIndices(VkSurfaceKHR surface)
 {
+	// Reset queue family indices
+	queueFamilyIndices.reset();
+
 	uint32_t queueFamilyCount;
 	vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
 	std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);

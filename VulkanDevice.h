@@ -42,6 +42,14 @@ struct VulkanDevice
 			// presentation in the same queue for improved performance.
 			return graphics.has_value() && present.has_value() && compute.has_value() && transfer.has_value();
 		}
+
+		void reset()
+		{
+			graphics.reset();
+			present.reset();
+			compute.reset();
+			transfer.reset();
+		}
 	} queueFamilyIndices;
 
 	VkPhysicalDevice pickPhysicalDevice(VkInstance instance, VkSurfaceKHR surface, const std::vector<const char *> &enabledExtensions, VkPhysicalDeviceFeatures enabledFeatures);
